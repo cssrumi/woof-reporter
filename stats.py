@@ -1,5 +1,8 @@
+import logging
 import os
 from datetime import datetime, timedelta
+
+module_logger = logging.getLogger('woof_reporter.stats')
 
 
 def now():
@@ -28,13 +31,14 @@ def count(date: (datetime, str) = format_dt(now())):
         i = max([i for i, c in enumerate(f) if c == '-'])
         minutes = int(f[i + 1:])
         sum_of_woofing += minutes
-
-    return 'Count: {}, Sum: {}'.format(longer_than_0_count, sum_of_woofing)
+    statistics = 'Count: {}, Sum: {}'.format(longer_than_0_count, sum_of_woofing)
+    module_logger.debug(statistics)
+    return statistics
 
 
 def stats():
     dt = datetime.now() - timedelta(days=1)
-    print(count(dt))
+    module_logger.info(count(dt))
 
 
 if __name__ == '__main__':
